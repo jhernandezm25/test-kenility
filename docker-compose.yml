@@ -7,7 +7,7 @@ services:
         build:
             context: .
             target: development
-            dockerfile: ./docker/nestApp
+            dockerfile: ./Dockerfile
         command: npm run start:debug
         ports:
             - 3000:3000
