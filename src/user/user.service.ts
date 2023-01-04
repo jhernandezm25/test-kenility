@@ -4,7 +4,8 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.model';
 import { Model } from 'mongoose';
-
+import * as bcrypt from 'bcrypt';
+// TODO añadir try catch
 @Injectable()
 export class UserService {
   constructor(
@@ -13,7 +14,19 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     //TODO Manejo de archivo tambien para el actualizar
-    return this.userModel.create(createUserDto);
+    const consecutive: number = (await this.findAll()).length + 1;
+    const username =
+      `${createUserDto.name}${createUserDto.lastName}${consecutive}`.replace(
+        /\s/g,
+        ''
+      );
+
+    if (createUserDto.password) {
+      const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+      createUserDto.password = hashedPassword;
+    }
+    const fullUser = { ...createUserDto, username };
+    return this.userModel.create(fullUser);
   }
 
   async findAll(): Promise<Array<User>> {
@@ -21,7 +34,9 @@ export class UserService {
   }
 
   async findOne(id: string): Promise<User> {
-    return this.userModel.findOne({ _id: id });
+    const findOne = await this.userModel.findOne({ _id: id });
+    console.log('findOne', findOne);
+    return findOne;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
