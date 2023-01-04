@@ -1,73 +1,95 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Kenility Test
+##  This is a login Api
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+[![N|Solid](https://cldup.com/dTxpPi9lDf.thumb.png)](https://nodesource.com/products/nsolid)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+[![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-## Description
+## Setup
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+- Open docker desktop (be sure that docker is running )
+- Download this project
+- Execute in order the following commands for initalize the project
+```sh
+start:docker
 ```
 
-## Running the app
+## Methods
 
-```bash
-# development
-$ npm run start
+| Method | Type |Route | description |
+| ------ | ------ | ------ |------ |
+| CreateUser | POST | localhost:3000/user | This method create a new user in the database |
 
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+ - Body
+```javascript
+{
+    "name":"Esteban",
+    "lastName": "Camacho",
+    "address": "cali",
+    "password":"1234"
+    "picture": "file1"
+}
 ```
 
-## Test
+| Method | Type | Route | Description |
+| ------ | ------ | ------ | ------ |
+| Login | POST | localhost:3000/auth/login | This method validate if the credentials are valid and return a token (aditional method) |
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+ - Body
+```javascript
+{
+    "username":"lookiron2",
+    "password":"1234bcA"
+}
 ```
 
-## Support
+| Method | Type | Route | Description | constrain |
+| ------ | ------ |------ | ------ | ------ |
+| FindAll | GET | localhost:3000/user | This methods return all the user that are in database|
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
 
-## Stay in touch
+| Method | Type | Route | Description |
+| ------ | ------ | ------ | ------ |
+| UpdateUser | PATCH | localhost:3000/user/${ID}| This method search for the userID and update id (all the parameters in the body are optional)|
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+ - Body
+```javascript
+{
+    "name":"Esteban",
+    "lastName": "Camacho",
+    "address": "cali",
+    "password":"1234"
+    "picture": "file1"
+}
+```
 
-## License
+| Method | Type | Route | Description | constrain |
+| ------ | ------ |------ | ------ | ------ |
+| FindOne | GET | localhost:3000/user/{id} | This methods return a user (aditional method)|
 
-Nest is [MIT licensed](LICENSE).
+| Method | Type | Route | Description | constrain |
+| ------ | ------ |------ | ------ | ------ |
+| UploadImgae | POST | localhost:3000/file/upload | To use this method we must select in the postman body the option "form-data", in the key type file and select the image we want to load, this will return us a string in base64 that represents our image, we pass it in the body of the user to create the user.|
+
+## How does it work?
+
+### Steps
+
+1. Create user: This step is done to obtain our user with which we will login to obtain the token which we will pass to the other api in the form of authorization because they are protected.
+
+2. Login: From the previous step take the automatically formed username and password, use the login method to obtain the token. Once the token is obtained it must be passed as bearer token to our other methods to get response otherwise it will get an error of not being authorized.
+
+
+### Decisions
+
+1. It is decided to set a password, which is encrypted, in order to use the token provided by JWT, the main idea of JWT is to protect our apis with an authorization token which is given with a combination of user and password.
+
+2. When creating the user and with the same idea of being able to make a successful authentication, it is decided to generate a username that will be unique per user.
+
+3. It is decided to create a method that converts the image into a base64 encoded image to be stored in our database. 
+In another scenario this method would be used by the front end to convert the image.
+
+### Future improvements
+
+1. For user creation, ask for an email or a unique field for easy identification.
+2. Save the images in another environment, as an example it can be an amazon S3 and in the database just save the url
