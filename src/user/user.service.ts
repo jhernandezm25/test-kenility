@@ -10,7 +10,6 @@ import { MESSAGES } from '../utils/variables';
 import { STATUS_CODE } from '../utils/variables';
 import { response } from 'src/utils/interfaces';
 import * as bcrypt from 'bcrypt';
-// TODO añadir try catch
 @Injectable()
 export class UserService {
   constructor(
