@@ -17,7 +17,6 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<response> {
-    //TODO Manejo de archivo tambien para el actualizar
     try {
       const consecutive: string = uuid();
       const username =
@@ -88,7 +87,6 @@ export class UserService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<response> {
-    // TODO acomodar el retorno buscar el ultimo
     try {
       const updateUser = await this.userModel.findByIdAndUpdate(
         id,
