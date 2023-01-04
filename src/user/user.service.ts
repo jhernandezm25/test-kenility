@@ -12,6 +12,7 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
+    //TODO Manejo de archivo tambien para el actualizar
     return this.userModel.create(createUserDto);
   }
 
@@ -23,8 +24,10 @@ export class UserService {
     return this.userModel.findOne({ _id: id });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    console.log('updateUserDto', updateUserDto);
+    // TODO acomodar el retorno buscar el ultimo
+    return this.userModel.findByIdAndUpdate(id, updateUserDto);
   }
 
   remove(id: number) {
