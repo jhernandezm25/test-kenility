@@ -20,18 +20,17 @@ services:
         restart: unless-stopped
         depends_on:
             - mongodb
+        links:
+            - mongodb
     mongodb:
         image: mongo:5.0.0
         container_name: server-mongodb
-        environment:
-            - MONGO_INITDB_ROOT_USERNAME=root
-            - MONGO_INITDB_ROOT_PASSWORD=password
         networks:
             - nesjs-network
         ports:
             - 27017:27017
         healthcheck:
-            test: echo 'db.runCommand("ping").ok' | mongo localhost:27017/test --quiet
+            test: echo 'db.runCommand("ping").ok' | mongo localhost:27017 --quiet
             interval: 30s
             timeout: 10s
             retries: 3

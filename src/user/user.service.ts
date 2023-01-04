@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectModel('user') private readonly userModel: Model<UserDocument>,
+    @InjectModel('user') private readonly userModel: Model<UserDocument>
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -19,7 +19,7 @@ export class UserService {
     return this.userModel.find();
   }
 
-  async findOne(id: number): Promise<User> {
+  async findOne(id: string): Promise<User> {
     return this.userModel.findOne({ _id: id });
   }
 
