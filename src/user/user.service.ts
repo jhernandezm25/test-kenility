@@ -4,6 +4,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schemas/user.model';
 import { Model } from 'mongoose';
+import { uuid } from 'uuidv4';
 import * as bcrypt from 'bcrypt';
 // TODO añadir try catch
 @Injectable()
@@ -14,7 +15,7 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     //TODO Manejo de archivo tambien para el actualizar
-    const consecutive: number = (await this.findAll()).length + 1;
+    const consecutive: string = uuid();
     const username =
       `${createUserDto.name}${createUserDto.lastName}${consecutive}`.replace(
         /\s/g,
@@ -35,12 +36,15 @@ export class UserService {
 
   async findOne(id: string): Promise<User> {
     const findOne = await this.userModel.findOne({ _id: id });
-    console.log('findOne', findOne);
+    return findOne;
+  }
+
+  async findByUsername(username: string): Promise<User> {
+    const findOne = await this.userModel.findOne({ username });
     return findOne;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    console.log('updateUserDto', updateUserDto);
     // TODO acomodar el retorno buscar el ultimo
     return this.userModel.findByIdAndUpdate(id, updateUserDto);
   }
