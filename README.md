@@ -11,7 +11,7 @@
 - Download this project
 - Execute in order the following commands for initalize the project
 ```sh
-start:docker
+npm run start:docker
 ```
 
 ## Methods
